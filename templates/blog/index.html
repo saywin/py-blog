@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Posts</title>
+{% endblock %}
+
+
+{% block content %}
+  <div class="container my-4">
+    {% for post in post_list %}
+      <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center">
+              <img src="https://ui-avatars.com/api/?name={{ post.owner.username }}"
+                   class="rounded-circle mr-2" width="40" height="40" alt="Avatar">
+              <h6 class="mb-0 font-weight-bold">{{ post.owner.username }}</h6>
+            </div>
+            <small class="text-muted">
+              {{ post.created_time|date:"M d, Y, P" }}
+            </small>
+          </div>
+
+          <h5 class="card-title mb-2"><a href="{% url 'blog:post-detail' post.id %}"
+                                         class="text-decoration-none">{{ post.title }}</a></h5>
+          <p class="card-text text-muted mb-3">{{ post.content }}</p>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="{% url 'blog:post-detail' post.id %}" class="btn btn-sm btn-outline-primary">
+              Read more
+            </a>
+            <small class="text-muted">
+              💬 {{ post.commentaries.count }} comment{{ post.commentaries.count|pluralize }}
+            </small>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center text-muted mt-5">No posts yet 😔</p>
+    {% endfor %}
+  </div>
+{% endblock %}
