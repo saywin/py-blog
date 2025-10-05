@@ -7,7 +7,9 @@ class User(AbstractUser):
 
 
 class Post(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="posts"
+    )
     title = models.CharField(max_length=255)
     content = models.TextField()
     created_time = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -30,7 +32,8 @@ class Commentary(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return f"({self.created_time}) - {self.post}, writer: {self.user.username}"
+        return (f"({self.created_time}) - {self.post}, "
+                f"writer: {self.user.username}")
 
     class Meta:
         ordering = ["-created_time"]
